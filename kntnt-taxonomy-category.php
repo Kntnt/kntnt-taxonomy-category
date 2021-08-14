@@ -16,20 +16,19 @@
 
 namespace Kntnt\Category;
 
-
-defined( 'ABSPATH' ) && new Taxonomy;
+defined( 'ABSPATH' ) && new Taxonomy();
 
 
 class Taxonomy {
 
 	public function __construct() {
-		add_action( 'init', [ $this, 'run' ] );
+		add_action( 'init', array( $this, 'run' ) );
 	}
 
 	public function run() {
 
 		$slug       = apply_filters( 'kntnt_taxonomy_category_slug', 'category' );
-		$post_types = apply_filters( 'kntnt_taxonomy_category_objects', [ 'post' ] );
+		$post_types = apply_filters( 'kntnt_taxonomy_category_objects', array( 'post' ) );
 
 		register_taxonomy( $slug, null, $this->taxonomy( $slug ) );
 
@@ -37,12 +36,12 @@ class Taxonomy {
 			register_taxonomy_for_object_type( $slug, $post_type );
 		}
 
-		add_filter( 'term_updated_messages', [ $this, 'term_updated_messages' ] );
+		add_filter( 'term_updated_messages', array( $this, 'term_updated_messages' ) );
 
 	}
 
 	private function taxonomy() {
-		return [
+		return array(
 
 			// A short descriptive summary of what the taxonomy is for.
 			'description'        => _x( 'Categories is a taxonomy used as post metadata. Its terms describe different categories of content. The categories should correspond to clearly distinguishable interests of the site\'s target audience. In this way, the categories can describe both segments within the target audience and sections of the site that cater to these segments.', 'Description', 'kntnt-taxonomy-category' ),
@@ -83,12 +82,12 @@ class Taxonomy {
 			'meta_box_cb'        => false,
 
 			// Array of capabilities for this taxonomy.
-			'capabilities'       => [
+			'capabilities'       => array(
 				'manage_terms' => 'edit_posts',
 				'edit_terms'   => 'edit_posts',
 				'delete_terms' => 'edit_posts',
 				'assign_terms' => 'edit_posts',
-			],
+			),
 
 			// Sets the query var key for this taxonomy. Default $taxonomy key.
 			// If false, a taxonomy cannot be loaded
@@ -98,7 +97,7 @@ class Taxonomy {
 
 			// Triggers the handling of rewrites for this taxonomy.
 			// Replace the array with false to prevent handling of rewrites.
-			'rewrite'            => [
+			'rewrite'            => array(
 
 				// Customize the permastruct slug.
 				'slug'         => 'category',
@@ -115,13 +114,13 @@ class Taxonomy {
 				// permalink_epmask is not set, defaults to EP_PERMALINK.
 				'ep_mask'      => null,
 
-			],
+			),
 
 			// Default term to be used for the taxonomy.
 			'default_term'       => null,
 
 			// An array of labels for this taxonomy.
-			'labels'             => [
+			'labels'             => array(
 				'name'                       => _x( 'Categories', 'Plural name', 'kntnt-taxonomy-category' ),
 				'singular_name'              => _x( 'Category', 'Singular name', 'kntnt-taxonomy-category' ),
 				'search_items'               => _x( 'Search categories', 'Search items', 'kntnt-taxonomy-category' ),
@@ -143,13 +142,13 @@ class Taxonomy {
 				'items_list'                 => _x( 'Items list', 'Categories list', 'kntnt-taxonomy-category' ),
 				'most_used'                  => _x( 'Most used', 'Most used', 'kntnt-taxonomy-category' ),
 				'back_to_items'              => _x( 'Back to categories', 'Back to items', 'kntnt-taxonomy-category' ),
-			],
+			),
 
-		];
+		);
 	}
 
 	public function term_updated_messages( $messages ) {
-		$messages['category'] = [
+		$messages['category'] = array(
 			0 => '', // Unused. Messages start at index 1.
 			1 => __( 'Category added.', 'kntnt-taxonomy-category' ),
 			2 => __( 'Category deleted.', 'kntnt-taxonomy-category' ),
@@ -157,7 +156,7 @@ class Taxonomy {
 			4 => __( 'Category not added.', 'kntnt-taxonomy-category' ),
 			5 => __( 'Category not updated.', 'kntnt-taxonomy-category' ),
 			6 => __( 'Categories deleted.', 'kntnt-taxonomy-category' ),
-		];
+		);
 		return $messages;
 	}
 
